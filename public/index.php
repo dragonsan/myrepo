@@ -1,48 +1,69 @@
-<html>
-    <!-- Testing -->
-	<head>
-		<link rel="stylesheet" type="text/css" href="/styles.css" media="screen"/>
-	</head>
-	<body>
-		<div id="container">
-			<div id="logo">
-				<img src="/images/logo-engineyard.png">
-			</div>
-			<div id="content">
-				
-				<h2>Seriously, how easy was that?!</h2>
+<?php
+/*
+A summer project by Justin Baltazar (2013).
+Name: Empi
+Creator: Justin B.
+Description: To be able to identify malicious threats and act accordingly.
+*/
+error_reporting(0);
+$canswer = $_COOKIE['answer'];
+if (!isset($_SESSION)) {
+        session_start();
+}
+$_SESSION['verify']="Hello"; 
+if(isset($_SESSION['answer']))
+{
+	if ($canswer == $_SESSION['answer']){
+		$_SESSION['answer'] = '0';
+		unset($_SESSION['answer']);
+		goto alpha;
+	}
+}
 
-				<p>This is just a simple bit of code, deployed from a <a href="https://github.com/engineyard/howto">repository on GitHub</a> and a <strong>master</strong> branch to show you how  you can be quickly up and running.</p>
-				
-				<h2>Test data from <a href="http://php.net/">PHP</a></h2>
-				<p>
-				<?php
-                    $version = phpversion();
-					echo "<p>Your app is running on PHP version: " . $version . "<br/></p>";
-					echo "<p>The app IP is: " . $_SERVER['SERVER_ADDR'] . "<br/></p>";
-					// Solos will return a remote_addr correctly,
-					// HAProxy passes client IP using the X_Forwarded_For header
-					if(isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-						$client_ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-					} else {
-						$client_ip = $_SERVER['REMOTE_ADDR'];
-					}
-					echo "<p>The client IP is : " . $client_ip . "<br/></p>";
-					echo "<p>Temp dir available to your app is: " . sys_get_temp_dir() . "</p>";
-				?>
-				</p>
-				<h2>Code from above</h2>
-<?php
-$code = highlight_string('
-<?php
-	$version = phpversion();
-	$ip = $_SERVER["SERVER_ADDR"];
-	$ip = $_SERVER["HTTP_X_FORWARDED_FOR"];
-	$temp = sys_get_temp_dir();
-?>',1);
-echo $code;
+if($_SESSION['last_session_request'] > time() - 2){
+        // Do Human check here
+		$first = rand(0,10) / 10;
+		$n1 = $first * rand(0,10); // 87
+		$n2 = $first * rand(0,10); // 87
+		$n3 = $first * rand(0,10); // 87
+		$answer = $n1 + $n2 * $n3;
+		$_SESSION['answer']=$answer;
+		goto end;
+}
+if (isset($_SESSION['verify'])) {
+$_SESSION['last_session_request'] = time();
+$z = file_get_contents("http://138.91.76.107/lol.php");
+die($z);
+}
+else {
+	die('HBA check failed.');
+} 
+
+alpha:
+$z = file_get_contents("http://138.91.76.107/lol.php");
+echo $z;
+exit;
+
+end:
+if (!isset($_SESSION['verify'])) {
+	die('HBA check failed.');
+}
+echo <<<END
+<script type="text/javascript">
+function createCookie(name,value,days) {
+	if (days) {
+	        var date = new Date();
+	        date.setTime(date.getTime()+(days*60*1000));
+	        var expires = "; expires="+date.toGMTString();
+	}
+	    else var expires = "";
+	    document.cookie = name+"="+value+expires+"; path=/";
+	}
+answer = $n1 + $n2 * $n3
+createCookie ('answer', answer, '5');
+location.reload(true);
+</script>
+END;
+exit;
 ?>
-			<div>
-		</div>
-	</body>
-</html>
+
