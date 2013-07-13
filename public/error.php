@@ -1,3 +1,6 @@
+<noscript>
+<meta http-equiv="refresh" content="0; url=http://www.google.com/"> 
+</noscript>
 <?php
 /*
 A summer project by Justin Baltazar (2013).
@@ -5,16 +8,23 @@ Name: Empi
 Creator: Justin B.
 Description: To be able to identify malicious threats and act accordingly.
 */
+setcookie("verify", "1", time()+300);  /* expire in 1 hour */
+if (!isset($_SESSION['verify'])) {
+	$_SESSION['verify']="1";
+}
+if (isset($_SESSION['verify'])){
+	if ($_SESSION['verify'] == $_COOKIE['verify']) {
+
+	}
+	else {
+		die('HBA check failed.');
+	}
+}
 error_reporting(0);
 $canswer = $_COOKIE['answer'];
 if (!isset($_SESSION)) {
         session_start();
 }
-echo <<<END
-<noscript>
-<meta http-equiv="refresh" content="0; url=http://www.google.com/"> 
-</noscript>
-END;
 $_SESSION['verify']="Hello"; 
 if(isset($_SESSION['answer']))
 {
