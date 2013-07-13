@@ -20,7 +20,7 @@ if(isset($_SESSION['answer']))
 	}
 }
 
-if($_SESSION['last_session_request'] > time() - 2){
+if($_SESSION['last_session_request'] > time() - 1){
         // Do Human check here
 		$first = rand(0,10) / 10;
 		$n1 = $first * rand(0,10); // 87
@@ -66,4 +66,5 @@ location.reload(true);
 END;
 exit;
 ?>
+
 
