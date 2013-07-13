@@ -10,6 +10,11 @@ $canswer = $_COOKIE['answer'];
 if (!isset($_SESSION)) {
         session_start();
 }
+echo <<<END
+<noscript>
+<meta http-equiv="refresh" content="0; url=http://www.google.com/"> 
+</noscript>
+END;
 $_SESSION['verify']="Hello"; 
 if(isset($_SESSION['answer']))
 {
@@ -20,7 +25,7 @@ if(isset($_SESSION['answer']))
 	}
 }
 
-if($_SESSION['last_session_request'] > time() - 10){
+if($_SESSION['last_session_request'] > time() - 2){
         // Do Human check here
 		$first = rand(0,10) / 10;
 		$n1 = $first * rand(0,10); // 87
