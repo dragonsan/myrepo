@@ -1,6 +1,3 @@
-<noscript>
-<meta http-equiv="refresh" content="0; url=http://www.google.com/"> 
-</noscript>
 <?php
 /*
 A summer project by Justin Baltazar (2013).
